@@ -1,32 +1,98 @@
+
+//         GAME CONSTRUCTOR AND METHODS
 function Game(board, players, currentPlayer, turn){
-  this.board = [];
-  this.players = [];
+  this.board = [],
+  this.players = [],
+  this.turn = 0
 };
 
+Game.prototype.changePlayer = function(){
+  this.turn += 1;
+  if(this.turn % 2 === 0){
+    this.currentPlayer = this.players[0];  // FUNCTION CHANGES CURRENT PLAYER
+  }
+  else{
+    this.currentPlayer = this.players[1];
+  };
+};
+
+Game.prototype.addBoard = function(board){  // ADDS BOARD TO GAME
+  this.board.push(board);
+};
+
+Game.prototype.addPlayer = function(player){  //ADDS PLAYER TO GAME, SETS CURRENT PLAYER
+  this.players.push(player);
+  this.currentPlayer = this.players[0];
+};
+
+//         BOARD CONSTRUCTOR AND METHODS
 function Board(spaces){
   this.spaces=[]
 };
 
-function Space(x, y, occupant){
 
+Board.prototype.addSpace = function(space){
+  this.spaces.push(space);
 };
 
+//          SPACE CONSTRUCTOR AND METHODS
+function Space(id, occupant){
+  this.id = id,
+  this.occupant = occupant
+};
+
+Space.prototype.getOccupant =function(){
+  if(this.occupant){
+    alert("You can't go there")
+  }
+  else{
+    this.occupant = game.currentPlayer;
+  };
+};
+
+Space.prototype.displayOccupant=function(id){
+  if(this.occupant.marker == "X"){
+    $(".X").show();
+  }
+  else if(this.occupant.marker == "O"){
+    $(".O").show();
+  }
+  else{};
+};
+
+//            PLAYER CONSTRUCTOR AND METHODS
 function Player(marker){
   this.marker = marker;
 };
 
+Player.prototype.markSpace = function(){
+
+}
 
 
+//           USER INTERFACE / START OF GAME
 var game = new Game();
 var board = new Board();
-var space1 = new Space(1, 1);
-var space2 = new Space(1, 2);
-var space3 = new Space(1, 3);
-var space4 = new Space(2, 1);
-var space5 = new Space(2, 2);
-var space6 = new Space(2, 3);
-var space7 = new Space(3, 1);
-var space8 = new Space(3, 2);
-var space9 = new Space(3, 3);
-var player1 = new Player(X);
-var player2 = new Player(O);
+var space1 = new Space(1);
+var space2 = new Space(2);
+var space3 = new Space(3);
+var space4 = new Space(4);
+var space5 = new Space(5);
+var space6 = new Space(6);
+var space7 = new Space(7);
+var space8 = new Space(8);
+var space9 = new Space(9);
+var player1 = new Player("X");
+var player2 = new Player("O");
+board.addSpace(space1);
+board.addSpace(space2);
+board.addSpace(space3);
+board.addSpace(space4);
+board.addSpace(space5);
+board.addSpace(space6);
+board.addSpace(space7);
+board.addSpace(space8);
+board.addSpace(space9);
+game.addBoard(board);
+game.addPlayer(player1);
+game.addPlayer(player2);

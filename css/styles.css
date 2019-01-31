@@ -2,5 +2,12 @@
   height: 200px;
   width: 196px;
   border: 1px solid black;
+  text-align: center;
+  vertical-align: bottom;
+  font-size: 150px;
 
+}
+
+span{
+  display: none;
 }
