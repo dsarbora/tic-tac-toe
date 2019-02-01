@@ -1,3 +1,16 @@
+var spaces = ['1','2','3','4','5','6','7','8','9'];
+var spaceMarkers = ['gf1', 'gf2', 'gf3', 'gf4', 'gf5', 'gf6', 'gf7', 'gf8', 'gf9']
+var winningCombinations = [
+  ['1','2','3'],
+  ['4','5','6'],
+  ['7','8','9'],
+  ['1','4','7'],
+  ['2','5','8'],
+  ['3','6','9'],
+  ['1','5','9'],
+  ['3','5','6']
+];
+
 
 //         GAME CONSTRUCTOR AND METHODS
 function Game(board, players, currentPlayer, turn){
@@ -71,6 +84,7 @@ Player.prototype.markSpace = function(){
 
 
 //           USER INTERFACE / START OF GAME
+
 var game = new Game();
 var board = new Board();
 var space1 = new Space(1);
@@ -96,3 +110,23 @@ board.addSpace(space9);
 game.addBoard(board);
 game.addPlayer(player1);
 game.addPlayer(player2);
+$(function(){
+$("#ef2").text("X")
+});
+
+var printMarker = function(id){
+  if(game.currentPlayer.marker == "X"){
+    alert("You can't go here");
+  }
+  else{$("#" + id).text(game.currentPlayer.marker)};
+};
+
+$(function(){
+  $(".boardSpace").click(function(){
+    var thisID = this.id;
+    printMarker(thisID)
+    console.log(thisID);
+
+
+  });  //end gameSpace.click function
+}); //end doc ready function
