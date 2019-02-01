@@ -8,7 +8,7 @@ var winningCombinations = [
   ['2','5','8'],
   ['3','6','9'],
   ['1','5','9'],
-  ['3','5','6']
+  ['3','5','7']
 ];
 
 
@@ -38,14 +38,53 @@ Game.prototype.addPlayer = function(player){  //ADDS PLAYER TO GAME, SETS CURREN
   this.currentPlayer = this.players[0];
 };
 
+Game.prototype.checkWin = function(array){
+  for(var i = 0; i < 8; i++){
+    var currentArray = array[i];
+    var playerSpaces = game.currentPlayer.spaces;
+    counter = 0;
+
+    for(var j = 0; j<3; j++){
+      if(playerSpaces.includes(currentArray[j])){
+        counter++;
+        console.log(counter)
+      }
+
+    };
+    if(counter == 3){
+      alert(this.currentPlayer.name +" WINS");
+      return counter;
+
+
+    }
+
+  };
+};
+
 //         BOARD CONSTRUCTOR AND METHODS
-function Board(spaces){
+function Board(spaces, currentID){
   this.spaces=[]
+  this.currentID = 0
+};
+
+Board.prototype.createSpaces = function(){
+  for(var i = 0; i < 9; i++){
+    space = new Space()
+    this.addSpace(space);
+  };
+
+
 };
 
 
 Board.prototype.addSpace = function(space){
+  this.assignID(space);
   this.spaces.push(space);
+};
+
+Board.prototype.assignID = function(space){
+  this.currentID ++
+  space.id = this.currentID
 };
 
 //          SPACE CONSTRUCTOR AND METHODS
@@ -74,8 +113,10 @@ Space.prototype.displayOccupant=function(id){
 };
 
 //            PLAYER CONSTRUCTOR AND METHODS
-function Player(marker){
-  this.marker = marker;
+function Player(name, marker, spaces){
+  this.name = name,
+  this.marker = marker,
+  this.spaces = []
 };
 
 Player.prototype.markSpace = function(){
@@ -96,8 +137,8 @@ var space6 = new Space(6);
 var space7 = new Space(7);
 var space8 = new Space(8);
 var space9 = new Space(9);
-var player1 = new Player("X");
-var player2 = new Player("O");
+var player1 = new Player("player1", "X");
+var player2 = new Player("player2", "O");
 board.addSpace(space1);
 board.addSpace(space2);
 board.addSpace(space3);
@@ -115,17 +156,23 @@ $("#ef2").text("X")
 });
 
 var printMarker = function(id){
-  if(game.currentPlayer.marker == "X"){
+  var check = $('#' + id).text();
+  if(check == "X" || check == "O"){
     alert("You can't go here");
   }
-  else{$("#" + id).text(game.currentPlayer.marker)};
+  else{
+    $("#" + id).text(game.currentPlayer.marker);
+    game.currentPlayer.spaces.push(id);
+    game.checkWin(winningCombinations);
+    game.changePlayer();
+  };
 };
 
 $(function(){
   $(".boardSpace").click(function(){
     var thisID = this.id;
-    printMarker(thisID)
-    console.log(thisID);
+    printMarker(thisID);
+
 
 
   });  //end gameSpace.click function
